@@ -92,3 +92,21 @@ If you haven’t used tinyurl.com before, please try creating a new shortened UR
 
 ```
 
+
+https://www.facebook.com
+
+
+
+
+https://www.tesla.com
+
+
+
+https://developer.mozilla.org 
+
+
+https://data.stackexchange.com
+
+
+https://stackoverflow.com
+
