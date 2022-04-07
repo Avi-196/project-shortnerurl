@@ -66,9 +66,9 @@ const isValidRequestBody = function (data) {
             return res.status(400).send({ status: false, message: "please enter valid  url" })
         }
         
-        const uniqueurl = await urlModel.findOne({ longUrl: data.longUrl })
+        const uniqueurl = await urlModel.findOne({ longUrl: data.longUrl }).select({createdAt:0,updatedAt:0,__v:0})
         if (uniqueurl) {
-            return res.status(200).send({ status:true,data:uniqueurl })
+            return res.status(200).send({ status:true,msg:"this url have already generated a unique urlCode",data:uniqueurl})
         }
 
         data.urlCode = randomstring.generate({length:6, charset:'alphabetic'}).toLowerCase()
@@ -78,6 +78,8 @@ const isValidRequestBody = function (data) {
       
 
         let createUrl = await urlModel.create(data)
+        await SET_ASYNC(`${data.urlCode}`,JSON.stringify(createUrl.longUrl))
+
             return res.status(201).send({status:true,msg:"sucessfullycreated",data:createUrl})
         
             
@@ -91,7 +93,7 @@ const isValidRequestBody = function (data) {
 
 
 
-  const originalUrl = async function (req, res) {
+  const getUrl = async function (req, res) {
     try {
         const urlCode = req.params.urlCode
 
@@ -124,4 +126,4 @@ const isValidRequestBody = function (data) {
 
 
 module.exports.createShortUrl=createShortUrl
-module.exports.originalUrl=originalUrl
+module.exports.getUrl=getUrl
