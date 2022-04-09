@@ -54,8 +54,16 @@ const isValidRequestBody = function (data) {
     try {
         const data = req.body
 
+        let check =await GET_ASYNC(`${data.longUrl}`)
+        if(check){
+        let response=JSON.parse(check)
+        console.log("data is from cache")
+        return res.status(200).send(response)
+        }
+
+
         if(!isValidRequestBody(data)){
-            return res.status(404).send({status:false,msg:"your request is not found"})
+            return res.status(400).send({status:false,msg:"your request is bad"})
         }
 
         if(!isValid(data.longUrl)){
